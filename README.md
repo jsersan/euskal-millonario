@@ -129,4 +129,3 @@ Euskal kultur eta historiaren hedapenean laguntzen duten guztiei.
 ---
 
 **Gozatu jokatzen! 🎮**
-# euskal-millonario
