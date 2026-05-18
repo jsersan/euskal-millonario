@@ -1,0 +1,69 @@
+.navbar {
+  background: linear-gradient(135deg, var(--euskal-red) 0%, #a31f14 100%);
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  .navbar-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .lauburu-icon {
+      width: 40px;
+      height: 40px;
+      animation: rotate 20s linear infinite;
+    }
+
+    h1 {
+      color: var(--euskal-white);
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+main {
+  min-height: calc(100vh - 80px);
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+
+    .logo h1 {
+      font-size: 1.3rem;
+    }
+
+    .lauburu-icon {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  main {
+    padding: 1rem;
+  }
+}

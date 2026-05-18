@@ -1,0 +1,93 @@
+<div class="game-container" *ngIf="gameState === GameState.PLAYING">
+  <div class="game-header">
+    <div class="progress-info">
+      <span class="question-number">Galdera {{ currentQuestionIndex + 1 }} / 15</span>
+      <span class="current-prize">{{ getCurrentPrize() | number }} €</span>
+      
+      <!-- Comodines -->
+      <div class="lifelines">
+        <button class="lifeline-button" 
+                [class.used]="fiftyFiftyUsed"
+                [disabled]="fiftyFiftyUsed || showResult"
+                (click)="useFiftyFifty()"
+                title="50-50: Ezabatu bi erantzun oker">
+          <span class="lifeline-icon">50:50</span>
+        </button>
+        <button class="lifeline-button"
+                [class.used]="phoneCallUsed"
+                [disabled]="phoneCallUsed || showResult"
+                (click)="usePhoneCall()"
+                title="Deitu lagun bati">
+          <span class="lifeline-icon">📞</span>
+        </button>
+      </div>
+    </div>
+    <div class="prize-ladder">
+      <div *ngFor="let prize of prices; let i = index" 
+           class="prize-item"
+           [class.active]="i === currentQuestionIndex"
+           [class.completed]="i < currentQuestionIndex">
+        <span class="prize-number">{{ i + 1 }}</span>
+        <span class="prize-amount">{{ prize | number }} €</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="question-section" *ngIf="currentQuestion">
+    <div class="question-card">
+      <h2 class="question-text">{{ currentQuestion.question }}</h2>
+    </div>
+
+    <div class="options-grid">
+      <button *ngFor="let option of currentQuestion.options; let i = index"
+              class="option-button"
+              [class]="getOptionClass(i)"
+              [disabled]="showResult || isOptionHidden(i)"
+              (click)="selectAnswer(i)">
+        <span class="option-letter">{{ ['A', 'B', 'C', 'D'][i] }}</span>
+        <span class="option-text" *ngIf="!isOptionHidden(i)">{{ option }}</span>
+        <span class="option-text hidden-text" *ngIf="isOptionHidden(i)">—</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="game-over-container" *ngIf="gameState === GameState.WON">
+  <div class="result-card win">
+    <div class="result-icon">🏆</div>
+    <h1 class="result-title">Zorionak!</h1>
+    <p class="result-message">Milioi bat euro irabazi duzu!</p>
+    <div class="final-prize">{{ prices[14] | number }} €</div>
+    
+    <div class="result-actions">
+      <button class="action-button primary" (click)="restartGame()">
+        <span>Berriro jokatu</span>
+      </button>
+      <button class="action-button secondary" (click)="goToMenu()">
+        <span>Hasierara itzuli</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="game-over-container" *ngIf="gameState === GameState.LOST">
+  <div class="result-card lose">
+    <div class="result-icon">😔</div>
+    <h1 class="result-title">Galdu egin duzu!</h1>
+    <p class="result-message" *ngIf="currentQuestionIndex > 0">
+      {{ prices[currentQuestionIndex - 1] | number }} € irabazi dituzu
+    </p>
+    <p class="result-message" *ngIf="currentQuestionIndex === 0">
+      Saiatu berriro!
+    </p>
+    
+    <div class="result-actions">
+      <button class="action-button primary" (click)="restartGame()">
+        <span>Berriro jokatu</span>
+      </button>
+      <button class="action-button secondary" (click)="goToMenu()">
+        <span>Hasierara itzuli</span>
+      </button>
+    </div>
+  </div>
+</div>
